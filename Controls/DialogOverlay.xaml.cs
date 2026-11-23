@@ -72,10 +72,10 @@ public partial class DialogOverlay : ContentView
 
         var task = _tcs.Task;
         await Task.WhenAll(
-            Backdrop.FadeTo(1, 180),
-            Card.FadeTo(1, 200),
-            Card.ScaleTo(1, 260, Easing.CubicOut),
-            Card.TranslateTo(0, 0, 260, Easing.CubicOut));
+            Backdrop.FadeToAsync(1, 180),
+            Card.FadeToAsync(1, 200),
+            Card.ScaleToAsync(1, 260, Easing.CubicOut),
+            Card.TranslateToAsync(0, 0, 260, Easing.CubicOut));
 
         if (_isPrompt) Input.Focus();
         return await task;
@@ -89,9 +89,9 @@ public partial class DialogOverlay : ContentView
         //Input.Unfocus();
         HideKeyboard();
         await Task.WhenAll(
-            Backdrop.FadeTo(0, 150),
-            Card.FadeTo(0, 150),
-            Card.ScaleTo(0.95, 150));
+            Backdrop.FadeToAsync(0, 150),
+            Card.FadeToAsync(0, 150),
+            Card.ScaleToAsync(0.95, 150));
         IsVisible = false;
 
         var tcs = _tcs;
@@ -108,7 +108,7 @@ public partial class DialogOverlay : ContentView
         {
             InputFrame.Stroke = new SolidColorBrush((Color)Res("Danger"));
             foreach (var dx in new double[] { -10, 10, -6, 6, 0 })
-                await InputFrame.TranslateTo(dx, 0, 45);
+                await InputFrame.TranslateToAsync(dx, 0, 45);
             return;
         }
         Close(text);

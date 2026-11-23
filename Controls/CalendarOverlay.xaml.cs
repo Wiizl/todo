@@ -49,10 +49,10 @@ public partial class CalendarOverlay : ContentView
 
         var task = _tcs.Task;
         await Task.WhenAll(
-            Backdrop.FadeTo(1, 180),
-            Card.FadeTo(1, 200),
-            Card.ScaleTo(1, 260, Easing.CubicOut),
-            Card.TranslateTo(0, 0, 260, Easing.CubicOut));
+            Backdrop.FadeToAsync(1, 180),
+            Card.FadeToAsync(1, 200),
+            Card.ScaleToAsync(1, 260, Easing.CubicOut),
+            Card.TranslateToAsync(0, 0, 260, Easing.CubicOut));
         return await task;
     }
 
@@ -107,7 +107,7 @@ public partial class CalendarOverlay : ContentView
         if (_closing || _tcs == null) return;
         _closing = true;
 
-        await Task.WhenAll(Backdrop.FadeTo(0, 150), Card.FadeTo(0, 150), Card.ScaleTo(0.95, 150));
+        await Task.WhenAll(Backdrop.FadeToAsync(0, 150), Card.FadeToAsync(0, 150), Card.ScaleToAsync(0.95, 150));
         IsVisible = false;
 
         var tcs = _tcs;

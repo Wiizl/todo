@@ -44,7 +44,7 @@ public class MainTabs : Microsoft.Maui.Controls.TabbedPage
         {
             now.Opacity = 0;
             now.TranslationX = dir * 80;
-            await Task.WhenAll(now.TranslateTo(0, 0, 250, Easing.CubicOut), now.FadeTo(1, 250));
+            await Task.WhenAll(now.TranslateToAsync(0, 0, 250, Easing.CubicOut), now.FadeToAsync(1, 250));
         }
         finally
         {

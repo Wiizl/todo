@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoLists.Controls.CalendarOverlay"
+             IsVisible="False">
+    <Grid x:Name="Backdrop" BackgroundColor="{DynamicResource Backdrop}" Opacity="0">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnBackdropTapped" />
+        </Grid.GestureRecognizers>
+
+        <Border x:Name="Card" VerticalOptions="Center" Margin="22,0" Padding="14,20,14,16"
+                BackgroundColor="{DynamicResource CardBg}" StrokeThickness="0"
+                StrokeShape="RoundRectangle 30" Opacity="0">
+            <Border.Shadow>
+                <Shadow Brush="Black" Opacity="0.25" Radius="30" Offset="0,12" />
+            </Border.Shadow>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCardTapped" />
+            </Border.GestureRecognizers>
+
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Button Text="‹" Clicked="OnPrev" WidthRequest="44" HeightRequest="44" Padding="0" FontSize="24"
+                            CornerRadius="14" BackgroundColor="{DynamicResource Surface2}" TextColor="{DynamicResource TextMain}" />
+                    <Label x:Name="MonthLabel" Grid.Column="1" FontSize="18" FontAttributes="Bold"
+                           HorizontalTextAlignment="Center" VerticalOptions="Center"
+                           TextColor="{DynamicResource TextMain}" />
+                    <Button Text="›" Grid.Column="2" Clicked="OnNext" WidthRequest="44" HeightRequest="44" Padding="0" FontSize="24"
+                            CornerRadius="14" BackgroundColor="{DynamicResource Surface2}" TextColor="{DynamicResource TextMain}" />
+                </Grid>
+
+                <Grid x:Name="WeekHeader" ColumnDefinitions="*,*,*,*,*,*,*" Margin="0,6,0,0" />
+
+                <Grid x:Name="DaysGrid" ColumnDefinitions="*,*,*,*,*,*,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="4" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0">
+                    <Button Text="Cancel" Style="{StaticResource SecondaryButton}" Clicked="OnCancel" />
+                    <Button Text="Today" Grid.Column="1" Style="{StaticResource SecondaryButton}" Clicked="OnToday" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

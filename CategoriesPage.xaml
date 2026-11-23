@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:TodoLists.Controls"
+             x:Class="TodoLists.CategoriesPage"
+             xmlns:conv="clr-namespace:TodoLists.Converters"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{DynamicResource PageBg}">
+    <ContentPage.Resources>
+        <conv:PathToImageConverter x:Key="PathToImage" />
+    </ContentPage.Resources>
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="20,12,20,20" RowSpacing="10">
+            <VerticalStackLayout Grid.Row="0" Spacing="2" Margin="4,20,0,10">
+                <Label Text="My Lists" FontSize="36" FontAttributes="Bold" TextColor="{DynamicResource TextMain}" />
+                <Label x:Name="SubtitleLabel" FontSize="15" TextColor="{DynamicResource TextMuted}" />
+            </VerticalStackLayout>
+
+            <CollectionView x:Name="List" Grid.Row="1" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="4" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+                        <Label Text="🗂️" FontSize="56" HorizontalOptions="Center" />
+                        <Label Text="No categories yet" FontSize="20" FontAttributes="Bold"
+                               HorizontalOptions="Center" TextColor="{DynamicResource TextMain}" />
+                        <Label Text="Tap “Add category” to create your first list."
+                               HorizontalTextAlignment="Center" TextColor="{DynamicResource TextMuted}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeThickness="0" BackgroundColor="{DynamicResource CardBg}"
+                                StrokeShape="RoundRectangle 22" Margin="2,2,2,8">
+                            <Border.Shadow>
+                                <Shadow Brush="Black" Opacity="0.08" Radius="14" Offset="0,4" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Button Grid.ColumnSpan="3" BackgroundColor="Transparent" Clicked="OnCategoryClicked" />
+
+                                <Border Grid.Column="0" Margin="14" WidthRequest="52" HeightRequest="52"
+                                        StrokeThickness="0" StrokeShape="RoundRectangle 18" InputTransparent="True"
+                                        BackgroundColor="{Binding Name, Converter={StaticResource NameConv}, ConverterParameter=soft}">
+                                    <Grid>
+                                        <Label Text="{Binding Name, Converter={StaticResource NameConv}, ConverterParameter=initial}"
+           FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"
+           TextColor="{Binding Name, Converter={StaticResource NameConv}}" />
+                                        <Image Source="{Binding ImagePath, Converter={StaticResource PathToImage}}"
+           IsVisible="{Binding HasImage}" Aspect="AspectFill" />
+                                    </Grid>
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1" Margin="0,14" VerticalOptions="Center"
+                                                     Spacing="2" InputTransparent="True">
+                                    <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
+                                           TextColor="{DynamicResource TextMain}" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Summary}" FontSize="13" TextColor="{DynamicResource TextMuted}" />
+                                </VerticalStackLayout>
+
+                                <Button Grid.Column="2" Margin="6,0,14,0" Style="{StaticResource DeleteButton}"
+                                        Clicked="OnDeleteCategory" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Grid.Row="2" Text="＋  Add category" Style="{StaticResource PrimaryButton}" Clicked="OnAddCategory" />
+        </Grid>
+
+        <c:DialogOverlay x:Name="Dialog" />
+    </Grid>
+</ContentPage>

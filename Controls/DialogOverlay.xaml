@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoLists.Controls.DialogOverlay"
+             IsVisible="False">
+    <Grid x:Name="Backdrop" BackgroundColor="{DynamicResource Backdrop}" Opacity="0">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnBackdropTapped" />
+        </Grid.GestureRecognizers>
+
+        <Border x:Name="Card" VerticalOptions="Center" Margin="28,0" Padding="24,28,24,22"
+                BackgroundColor="{DynamicResource CardBg}" StrokeThickness="0"
+                StrokeShape="RoundRectangle 30" Opacity="0">
+            <Border.Shadow>
+                <Shadow Brush="Black" Opacity="0.25" Radius="30" Offset="0,12" />
+            </Border.Shadow>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCardTapped" />
+            </Border.GestureRecognizers>
+
+            <VerticalStackLayout Spacing="14">
+                <Border x:Name="Badge" WidthRequest="64" HeightRequest="64" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 22" HorizontalOptions="Center">
+                    <Label x:Name="BadgeLabel" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+
+                <Label x:Name="TitleLabel" FontSize="22" FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" TextColor="{DynamicResource TextMain}" />
+                <Label x:Name="MessageLabel" FontSize="15" HorizontalTextAlignment="Center"
+                       TextColor="{DynamicResource TextMuted}" />
+
+                <Border x:Name="InputFrame" IsVisible="False" BackgroundColor="{DynamicResource Surface2}"
+                        StrokeThickness="2" Stroke="Transparent" StrokeShape="RoundRectangle 16" Padding="16,0">
+                    <Entry x:Name="Input" HeightRequest="52" Keyboard="Text" BackgroundColor="Transparent" FontSize="16"
+                           TextColor="{DynamicResource TextMain}" PlaceholderColor="{DynamicResource TextMuted}"
+                           MaxLength="200" ReturnType="Done"
+                           Completed="OnConfirm" Focused="OnInputFocused" Unfocused="OnInputUnfocused" />
+                </Border>
+
+                <Grid ColumnDefinitions="*,*" x:Name="ButtonsGrid" ColumnSpacing="12" Margin="0,8,0,0">
+                    <Button Text="Cancel" Style="{StaticResource SecondaryButton}" Clicked="OnCancel" />
+                    <Button x:Name="ConfirmButton" Grid.Column="1" TextColor="White" FontSize="15"
+                            FontAttributes="Bold" CornerRadius="18" HeightRequest="52" Clicked="OnConfirm" />
+                </Grid>
+                <VerticalStackLayout x:Name="ActionsHost" IsVisible="False" Spacing="10" Margin="0,8,0,0" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

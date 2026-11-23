@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:TodoLists.Controls"
+             x:Class="TodoLists.CategoryPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{DynamicResource PageBg}">
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="20,12,20,20" RowSpacing="10">
+            <!-- BindingContext of the page is the Category -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Margin="0,16,0,10">
+                <Button Style="{StaticResource BackButton}" Clicked="OnBack" />
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                    <Label Text="{Binding Name}" FontSize="26" FontAttributes="Bold"
+                           TextColor="{DynamicResource TextMain}" LineBreakMode="TailTruncation" />
+                    <Label x:Name="CountLabel" FontSize="13" TextColor="{DynamicResource TextMuted}" />
+                </VerticalStackLayout>
+                <Border x:Name="IconBadge" Grid.Column="2" WidthRequest="48" HeightRequest="48" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16" VerticalOptions="Center"
+                        BackgroundColor="{Binding Name, Converter={StaticResource NameConv}, ConverterParameter=soft}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnIconTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid><Label Text="{Binding Name, Converter={StaticResource NameConv}, ConverterParameter=initial}"
+                           FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"
+                           TextColor="{Binding Name, Converter={StaticResource NameConv}}" />
+                        <Image x:Name="HeaderImage" IsVisible="False" Aspect="AspectFill" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <CollectionView x:Name="List" Grid.Row="1" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+                        <Label Text="📝" FontSize="56" HorizontalOptions="Center" />
+                        <Label Text="Nothing here yet" FontSize="20" FontAttributes="Bold"
+                               HorizontalOptions="Center" TextColor="{DynamicResource TextMain}" />
+                        <Label Text="Tap “Add new” to create an entry."
+                               HorizontalTextAlignment="Center" TextColor="{DynamicResource TextMuted}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeThickness="0" BackgroundColor="{DynamicResource CardBg}"
+                                StrokeShape="RoundRectangle 18" Margin="2,2,2,6" Padding="8,8,12,8">
+                            <Border.Shadow>
+                                <Shadow Brush="Black" Opacity="0.07" Radius="12" Offset="0,3" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="6">
+                                <CheckBox IsChecked="{Binding Done}" Color="{DynamicResource Primary}"
+                                          VerticalOptions="Center" CheckedChanged="OnToggled" />
+                                <Label Grid.Column="1" Text="{Binding Text}" FontSize="16" VerticalOptions="Center"
+                                       TextColor="{DynamicResource TextMain}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Done}" Value="True">
+                                            <Setter Property="TextDecorations" Value="Strikethrough" />
+                                            <Setter Property="TextColor" Value="{DynamicResource TextMuted}" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Button Grid.Column="2" Style="{StaticResource DeleteButton}" Clicked="OnDeleteEntry" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Grid.Row="2" Text="＋  Add new" Style="{StaticResource PrimaryButton}" Clicked="OnAddEntry" />
+        </Grid>
+
+        <c:DialogOverlay x:Name="Dialog" />
+    </Grid>
+</ContentPage>

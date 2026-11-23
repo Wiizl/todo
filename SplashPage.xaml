@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoLists.SplashPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#048FFF">
+    <Grid x:Name="Root" SizeChanged="OnSizeChanged">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped" />
+        </Grid.GestureRecognizers>
+
+        <!-- solid colour first (matches the native Android splash), fades into the gradient -->
+        <Grid x:Name="GradientLayer" Opacity="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#048FFF" Offset="0.4" />
+                    <GradientStop Color="#0012FF" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+
+        <Grid x:Name="Stage" HorizontalOptions="Center" VerticalOptions="Center" Opacity="0">
+            <Image x:Name="Base"     Source="splash_base"     Aspect="Fill" />
+            <Image x:Name="Paper"    Source="splash_paper"    Aspect="Fill" AnchorX="0.53" AnchorY="0.84" />
+            <Image x:Name="Hands"    Source="splash_hands"    Aspect="Fill" />
+            <Image x:Name="EyeOpen"  Source="splash_eye_open" Aspect="Fill" />
+            <Image x:Name="EyeWink"  Source="splash_eye_wink" Aspect="Fill" IsVisible="False" />
+            <Image x:Name="Sparkle"  Source="splash_sparkle"  Aspect="Fill" Opacity="0" AnchorX="0.81" AnchorY="0.235" />
+        </Grid>
+
+        <!-- fades to the app's page colour, then the real UI takes over -->
+        <BoxView x:Name="Wipe" Opacity="0" InputTransparent="True" />
+    </Grid>
+</ContentPage>

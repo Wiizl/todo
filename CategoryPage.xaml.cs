@@ -87,11 +87,7 @@ public partial class CategoryPage : ContentPage
     {
         try
         {
-            var file = await FilePicker.Default.PickAsync(new PickOptions
-            {
-                PickerTitle = "Choose category icon",
-                FileTypes = FilePickerFileType.Images,
-            });
+            var file = await GalleryPicker.PickImageAsync();
             if (file == null) return;
 
             var newName = await ImageService.SaveCategoryImageAsync(file, _category.Id);

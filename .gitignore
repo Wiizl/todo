@@ -5,3 +5,4 @@
 /obj
 /.vs
 /bin/Release/net10.0-android
+/bin/Debug/net10.0-android

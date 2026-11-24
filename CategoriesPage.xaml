@@ -58,8 +58,27 @@
                                     <Label Text="{Binding Summary}" FontSize="13" TextColor="{DynamicResource TextMuted}" />
                                 </VerticalStackLayout>
 
-                                <Button Grid.Column="2" Margin="6,0,14,0" Style="{StaticResource DeleteButton}"
-                                        Clicked="OnDeleteCategory" />
+                                <Grid Grid.Column="2" Margin="6,0,14,0" ColumnDefinitions="40,40" ColumnSpacing="8" VerticalOptions="Center">
+                                    <Button Text="☆" WidthRequest="40" HeightRequest="40" Padding="0" CornerRadius="14" FontSize="18"
+            BackgroundColor="{DynamicResource Surface2}" TextColor="{DynamicResource TextMuted}"
+            Clicked="OnToggleFavorite">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsFavorite}" Value="True">
+                                                <Setter Property="Text" Value="★" />
+                                                <Setter Property="BackgroundColor" Value="#33F5B301" />
+                                                <Setter Property="TextColor" Value="#F5B301" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+
+                                    <Button Grid.Column="1" Style="{StaticResource DeleteButton}" Clicked="OnDeleteCategory">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsFavorite}" Value="True">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Border>
                     </DataTemplate>

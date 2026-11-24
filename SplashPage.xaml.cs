@@ -7,7 +7,11 @@ public partial class SplashPage : ContentPage
     double _size;
     bool _started, _done;
 
-    public SplashPage() => InitializeComponent();
+    public SplashPage()
+    {
+        InitializeComponent();
+        VersionLabel.Text = $"Version {AppInfo.Current.VersionString}";
+    }
 
     static double Lerp(double a, double b, double t) => a + (b - a) * t;
 
@@ -38,6 +42,7 @@ public partial class SplashPage : ContentPage
 
         // 0 - 550 ms: solid colour -> gradient, hedgehog pops in
         At(0, 400, v => GradientLayer.Opacity = v);
+        At(0, 400, v => VersionLabel.Opacity = v);
         At(0, 350, v => Stage.Opacity = v, Easing.CubicOut);
         At(0, 550, v => Stage.Scale = Lerp(0.8, 1, v), Easing.SpringOut);
         At(0, 550, v => Stage.TranslationY = Lerp(_size * 40 / 360, 0, v), Easing.CubicOut);

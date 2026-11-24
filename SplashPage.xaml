@@ -27,7 +27,9 @@
             <Image x:Name="EyeWink"  Source="splash_eye_wink" Aspect="Fill" IsVisible="False" />
             <Image x:Name="Sparkle"  Source="splash_sparkle"  Aspect="Fill" Opacity="0" AnchorX="0.81" AnchorY="0.235" />
         </Grid>
-
+        <Label x:Name="VersionLabel" TextColor="White" FontSize="14" Opacity="0"
+            HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,32"
+            InputTransparent="True" />
         <!-- fades to the app's page colour, then the real UI takes over -->
         <BoxView x:Name="Wipe" Opacity="0" InputTransparent="True" />
     </Grid>

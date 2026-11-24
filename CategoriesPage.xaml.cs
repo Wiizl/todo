@@ -18,7 +18,8 @@ public partial class CategoriesPage : ContentPage
         _view.Insert(to, item);
         Store.Categories.Move(from, to);
     },
-    () => Store.Save());
+    () => Store.Save(),
+    index => _view[index].IsFavorite);
     }
 
     protected override void OnAppearing()
@@ -37,6 +38,7 @@ public partial class CategoriesPage : ContentPage
     {
         //List.ItemsSource = null;
         //List.ItemsSource = Store.Categories;
+        NormalizeFavorites();
         _view = Store.Categories.ToList();
         List.ItemsSource = null;
         List.ItemsSource = _view;
@@ -65,6 +67,7 @@ public partial class CategoriesPage : ContentPage
     async void OnDeleteCategory(object? sender, EventArgs e)
     {
         if ((sender as BindableObject)?.BindingContext is not Category c) return;
+        if (c.IsFavorite) return;
 
         bool ok = await Dialog.ConfirmAsync("Delete category?",
             $"“{c.Name}” and all of its entries will be permanently removed.");
@@ -73,6 +76,33 @@ public partial class CategoriesPage : ContentPage
         Store.Categories.Remove(c);
         Store.Save();
         ImageService.Delete(c.ImageFile);
+        Refresh();
+    }
+
+    static void NormalizeFavorites()
+    {
+        var ordered = Store.Categories.Where(c => c.IsFavorite)
+            .Concat(Store.Categories.Where(c => !c.IsFavorite)).ToList();
+        bool changed = false;
+        for (int i = 0; i < ordered.Count; i++)
+        {
+            int cur = Store.Categories.IndexOf(ordered[i]);
+            if (cur != i) { Store.Categories.Move(cur, i); changed = true; }
+        }
+        if (changed) Store.Save();
+    }
+
+    void OnToggleFavorite(object? sender, EventArgs e)
+    {
+        if ((sender as BindableObject)?.BindingContext is not Category c) return;
+        c.IsFavorite = !c.IsFavorite;
+
+        int favs = Store.Categories.Count(x => x.IsFavorite);
+        int from = Store.Categories.IndexOf(c);
+        int to = c.IsFavorite ? favs - 1 : favs;   // end of the favourites / start of the rest
+        if (to != from) Store.Categories.Move(from, to);
+
+        Store.Save();
         Refresh();
     }
 }
